@@ -1,74 +1,72 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    // ---- Funcionalidade do Pop-up para "clique aqui!" ----
-    // Seleciona o elemento que contém o texto "Para ter uma experiência incrível clique aqui!"
-    const ctaText = document.querySelector('.cta-text');
-    // Seleciona o pop-up que deve aparecer/desaparecer
-    const popupInfo = document.getElementById('popupInfo');
+    // Pega o botão "clique aqui!"
+    const clickMeButton = document.getElementById('clickMeButton');
 
-    // Verifica se os elementos existem na página antes de adicionar os listeners
-    if (ctaText && popupInfo) {
-        // Adiciona um 'ouvinte de evento' para o clique no texto do CTA
-        ctaText.addEventListener('click', () => {
-            // Alterna a propriedade 'display' do pop-up
-            // Se estiver 'block' (visível), muda para 'none' (invisível)
-            // Se estiver 'none' (invisível), muda para 'block' (visível)
-            if (popupInfo.style.display === 'block') {
-                popupInfo.style.display = 'none';
-            } else {
-                popupInfo.style.display = 'block';
-            }
+    // Adiciona um listener de evento de clique ao botão
+    if (clickMeButton) {
+        clickMeButton.addEventListener('click', () => {
+            alert('Você clicou para ter uma experiência incrível! 🎉');
+            // Aqui você pode adicionar funcionalidades mais complexas, por exemplo:
+            // - revelar uma nova seção na página
+            // - carregar conteúdo dinamicamente
+            // - redirecionar para outra página, etc.
         });
+    }
 
-        // Opcional: Esconde o pop-up quando o usuário clica em qualquer lugar FORA do texto do CTA e do próprio pop-up
-        document.addEventListener('click', (event) => {
-            // 'event.target' é o elemento onde o clique ocorreu
-            // 'ctaText.contains(event.target)' verifica se o clique foi DENTRO do ctaText
-            // 'popupInfo.contains(event.target)' verifica se o clique foi DENTRO do popupInfo
-            // Se o clique NÃO foi dentro de nenhum deles, então esconde o pop-up
-            if (!ctaText.contains(event.target) && !popupInfo.contains(event.target)) {
-                popupInfo.style.display = 'none';
+    // Pega o rótulo "Sementes" e seu conteúdo oculto
+    const sementesLabel = document.getElementById('sementes-label');
+    const sementesDetails = document.getElementById('sementes-details');
+
+    // Adiciona um listener de evento de clique ao rótulo "Sementes"
+    if (sementesLabel && sementesDetails) {
+        sementesLabel.addEventListener('click', () => {
+            // Alterna a exibição do conteúdo oculto
+            if (sementesDetails.style.display === 'block') {
+                sementesDetails.style.display = 'none';
+            } else {
+                sementesDetails.style.display = 'block';
             }
         });
     }
 
-    // ---- Funcionalidade de Navegação para mostrar/esconder seções ----
-    // Seleciona todos os links dentro da seção de navegação
-    const navLinks = document.querySelectorAll('.navigation-section ul li a');
-    // Seleciona todas as seções que inicialmente estão escondidas (elas têm a classe 'hidden-section')
-    const hiddenSections = document.querySelectorAll('.hidden-section');
+    // Funcionalidade opcional: Dropdown básico para itens de navegação (aparece no hover)
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            const dropdown = item.querySelector('.dropdown-content');
+            if (dropdown) {
+                dropdown.style.display = 'block';
+            }
+        });
 
-    // Itera sobre cada link de navegação
-    navLinks.forEach(link => {
-        // Adiciona um ouvinte de evento para cada link
-        link.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o comportamento padrão do link (que seria rolar para a âncora imediatamente)
-
-            // Pega o ID da seção alvo a partir do atributo 'href' do link (ex: '#cursos' -> 'cursos')
-            const targetId = link.getAttribute('href').substring(1);
-            // Encontra o elemento da seção alvo usando o ID
-            const targetSection = document.getElementById(targetId);
-
-            // Verifica se a seção alvo realmente existe
-            if (targetSection) {
-                // Primeiro, esconde todas as outras seções escondidas para que apenas uma fique visível por vez
-                hiddenSections.forEach(section => {
-                    if (section.id !== targetId) { // Esconde todas, exceto a que foi clicada
-                        section.style.display = 'none';
-                    }
-                });
-
-                // Agora, alterna o display da seção clicada
-                if (targetSection.style.display === 'block') {
-                    targetSection.style.display = 'none'; // Se já estiver visível, esconde
-                } else {
-                    targetSection.style.display = 'block'; // Se estiver escondida, mostra
-                }
-
-                // Opcional: Rola a página suavemente para a seção se ela se tornar visível
-                if (targetSection.style.display === 'block') {
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+        item.addEventListener('mouseleave', () => {
+            const dropdown = item.querySelector('.dropdown-content');
+            if (dropdown) {
+                dropdown.style.display = 'none';
             }
         });
     });
+
+    // Para o campo de entrada "Pesquisa"
+    const searchInput = document.querySelector('.search-box input[type="text"]');
+    if (searchInput) {
+        searchInput.addEventListener('focus', () => {
+            console.log('Teclado virtual pode aparecer aqui ou foco visual.');
+            // Em uma aplicação real, você poderia:
+            // - Acionar um teclado virtual personalizado.
+            // - Mudar a aparência do input para indicar que está focado.
+        });
+
+        searchInput.addEventListener('input', (event) => {
+            console.log('Pesquisando por:', event.target.value);
+            // Em uma aplicação real, isso desencadearia uma função de busca
+            // para filtrar conteúdo ou buscar resultados.
+        });
+    }
+
+    // A funcionalidade "Linha verde" que menciona "aparece 2 linhas"
+    // Atualmente, está apenas no dropdown de texto. Se for para revelar
+    // algo mais dinâmico, seria necessário adicionar lógica aqui
+    // similar à de "Sementes".
 });
